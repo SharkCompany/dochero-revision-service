@@ -1,0 +1,10 @@
+version: "3.8"
+
+services:
+  department-server:
+    image: kan19/dochero-department-service
+    container_name: dochero-department-service
+    ports:
+      - 8096:8096
+    stdin_open: true
+    tty: true
