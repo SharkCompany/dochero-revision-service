@@ -12,4 +12,6 @@ public interface DocumentRevisionRepository extends JpaRepository<DocumentRevisi
     List<DocumentRevision> findByDocumentIdOrderByCreatedAtDesc(String documentId);
 
     Optional<DocumentRevision> findByIdAndDocumentId(String revisionId, String documentId);
+
+    Boolean existsByDocumentId(String documentId);
 }

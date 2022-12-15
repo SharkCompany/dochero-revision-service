@@ -33,13 +33,12 @@ public class DocumentRevisionController {
     }
 
     @GetMapping("/{documentId}")
-    public ResponseEntity<?> getDocumentRevision(@PathVariable("documentId") String documentId) {
+    public ResponseEntity<?> getAllDocumentRevision(@PathVariable("documentId") String documentId) {
         try {
             return ResponseEntity.ok().body(documentRevisionService.getAllRevisionsByDocumentId(documentId));
         } catch (Exception e) {
             LOGGER.error("Failed to get document revision. " + e);
-            DocumentRevisionResponse body = new DocumentRevisionResponse(e.getMessage(), HttpStatus.BAD_REQUEST.value());
-            return ResponseEntity.badRequest().body(body);
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
@@ -49,8 +48,7 @@ public class DocumentRevisionController {
             return ResponseEntity.ok().body(documentRevisionService.createBlankRevision(documentId));
         } catch (Exception e) {
             LOGGER.error("Failed to create empty revision. " + e);
-            DocumentRevisionResponse body = new DocumentRevisionResponse(e.getMessage(), HttpStatus.BAD_REQUEST.value());
-            return ResponseEntity.badRequest().body(body);
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
@@ -60,8 +58,7 @@ public class DocumentRevisionController {
             return ResponseEntity.ok().body(documentRevisionService.createRevisionForExistedDocument(documentId, revision));
         } catch (Exception e) {
             LOGGER.error("Failed to save document revision. " + e);
-            DocumentRevisionResponse body = new DocumentRevisionResponse(e.getMessage(), HttpStatus.BAD_REQUEST.value());
-            return ResponseEntity.badRequest().body(body);
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
@@ -72,8 +69,7 @@ public class DocumentRevisionController {
             return ResponseEntity.ok().body(documentRevisionService.revertToDocumentRevision(documentId, documentRevisionId));
         } catch (Exception e) {
             LOGGER.error("Failed to revert to document revision. " + e);
-            DocumentRevisionResponse body = new DocumentRevisionResponse(e.getMessage(), HttpStatus.BAD_REQUEST.value());
-            return ResponseEntity.badRequest().body(body);
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
