@@ -35,10 +35,15 @@ public class DocumentRevisionServiceImpl implements DocumentRevisionService {
     @Transactional
     public DocumentRevision createBlankRevision(String documentId) {
         // assume that documentId is valid
-        return DocumentRevision.builder()
+        Boolean isAnyRevisionExisted = documentRevisionRepository.existsByDocumentId(documentId);
+        if (isAnyRevisionExisted) {
+            throw new DocumentRevisionException(AppMessage.DOCUMENT_REVISION_ALREADY_EXISTED);
+        }
+        DocumentRevision revision = DocumentRevision.builder()
                 .documentId(documentId)
                 .revisionData(Strings.EMPTY)
                 .build();
+        return documentRevisionRepository.save(revision);
     }
 
     @Override
