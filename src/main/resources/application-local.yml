@@ -13,9 +13,7 @@ spring:
     username: postgres
     password: password
     driverClassName: org.postgresql.Driver
-  cloud:
-    discovery:
-      enabled: false
+
   flyway:
     url: jdbc:postgresql://103.142.137.207:5432/dochero-db
     schemas: document_revision
@@ -31,4 +29,4 @@ server:
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: http://45.119.85.106:40000/eureka
