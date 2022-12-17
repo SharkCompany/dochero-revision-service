@@ -42,7 +42,7 @@ public class DocumentRevisionController {
         }
     }
 
-    @PutMapping("/{documentId}/initial-document")
+    @PutMapping("/document/{documentId}/initial-document")
     public ResponseEntity<?> createEmptyRevision(@PathVariable("documentId") String documentId) {
         try {
             return ResponseEntity.ok().body(documentRevisionService.createBlankRevision(documentId));
@@ -52,7 +52,7 @@ public class DocumentRevisionController {
         }
     }
 
-    @PutMapping("/{documentId}/save-document")
+    @PutMapping("/document/{documentId}/save-document")
     public ResponseEntity<?> createRevisionForExistedDocument(@PathVariable("documentId") String documentId, @RequestBody UpdateRevisionRequest revision) {
         try {
             return ResponseEntity.ok().body(documentRevisionService.createRevisionForExistedDocument(documentId, revision));
@@ -62,7 +62,7 @@ public class DocumentRevisionController {
         }
     }
 
-    @PutMapping("/{documentId}/revert/{documentRevisionId}")
+    @PutMapping("/{documentRevisionId}/document/{documentId}/revert-revision")
     public ResponseEntity<?> revertToDocumentRevision(@PathVariable("documentId") String documentId,
                                                      @PathVariable("documentRevisionId") String documentRevisionId) {
         try {
