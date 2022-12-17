@@ -13,18 +13,23 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class DocumentRevisionSpecification{
 
-    public static Specification<DocumentRevision> documentRevisionHasDocumentId(String documentId) {
-        return new Specification<DocumentRevision>() {
-            @Override
-            public Predicate toPredicate(Root<DocumentRevision> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
+    public static Specification<DocumentRevision> hasDocumentId(String documentId) {
+        return (root, criteriaQuery, criteriaBuilder) -> {
+            criteriaQuery.orderBy(criteriaBuilder.desc(root.get("createdAt")));
+            return criteriaBuilder.equal(root.get("documentId"), documentId);
+        };
+    }
+
+    public static Specification<DocumentRevision> orderByCreatedAt(String order) {
+        return (root, criteriaQuery, criteriaBuilder) -> {
+            if (StringUtils.equalsIgnoreCase(order, "asc")) {
+                criteriaQuery.orderBy(criteriaBuilder.asc(root.get("createdAt")));
+            } else {
                 criteriaQuery.orderBy(criteriaBuilder.desc(root.get("createdAt")));
-                return criteriaBuilder.equal(root.get("documentId"), documentId);
             }
+            return criteriaBuilder.conjunction();
         };
     }
 }

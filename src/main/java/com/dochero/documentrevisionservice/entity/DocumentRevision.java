@@ -16,6 +16,7 @@ import java.util.UUID;
 @Builder
 @Getter
 @Setter
+@Table(name = "document_revision")
 public class DocumentRevision {
     @Id
     @Column(name = "doc_revision_id")

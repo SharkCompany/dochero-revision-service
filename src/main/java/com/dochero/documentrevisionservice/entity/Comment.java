@@ -1,5 +1,7 @@
 package com.dochero.documentrevisionservice.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -13,6 +15,7 @@ import java.util.UUID;
 @Builder
 @Getter
 @Setter
+@Table(name = "comment")
 public class Comment {
     @Id
     @Column(name = "comment_id")
@@ -32,6 +35,7 @@ public class Comment {
 
     @ManyToOne
     @JoinColumn(name = "revision_reference_id", referencedColumnName = "doc_revision_id", insertable = false, updatable = false)
+    @JsonIgnore
     private DocumentRevision documentRevision;
 
     @PrePersist
