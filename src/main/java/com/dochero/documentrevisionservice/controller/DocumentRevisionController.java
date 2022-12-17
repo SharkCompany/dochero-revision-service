@@ -32,7 +32,7 @@ public class DocumentRevisionController {
         return ResponseEntity.badRequest().body(body);
     }
 
-    @GetMapping("/{documentId}")
+    @GetMapping("/document/{documentId}")
     public ResponseEntity<?> getAllDocumentRevision(@PathVariable("documentId") String documentId) {
         try {
             return ResponseEntity.ok().body(documentRevisionService.getAllRevisionsByDocumentId(documentId));

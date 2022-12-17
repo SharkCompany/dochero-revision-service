@@ -9,10 +9,13 @@ import com.dochero.documentrevisionservice.entity.DocumentRevision;
 import com.dochero.documentrevisionservice.exception.DocumentRevisionException;
 import com.dochero.documentrevisionservice.repository.CommentRepository;
 import com.dochero.documentrevisionservice.repository.DocumentRevisionRepository;
+import com.dochero.documentrevisionservice.search.DocumentRevisionSpecification;
+import com.dochero.documentrevisionservice.search.SearchOperation;
 import com.dochero.documentrevisionservice.service.DocumentRevisionService;
 import com.dochero.documentrevisionservice.utils.CommentMapperUtils;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -78,8 +81,8 @@ public class DocumentRevisionServiceImpl implements DocumentRevisionService {
     //Used for get document detail
     public List<DocumentRevision> getAllRevisionsByDocumentId(String documentId) {
         // assume that documentId is valid
-
-        return documentRevisionRepository.findByDocumentIdOrderByCreatedAtDesc(documentId);
+        Specification<DocumentRevision> specs = DocumentRevisionSpecification.documentRevisionHasDocumentId(documentId);
+        return documentRevisionRepository.findAll(specs);
     }
 
     @Override
