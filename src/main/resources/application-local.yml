@@ -31,4 +31,4 @@ eureka:
     service-url:
       defaultZone: http://45.119.85.106:40000/eureka
   instance:
-    hostname: PhanThiHoa
+    preferIpAddress: true
