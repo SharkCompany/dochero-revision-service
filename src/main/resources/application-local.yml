@@ -7,18 +7,18 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
-        default_schema: document_revision
+        default_schema: dochero_document_revision
   datasource:
-    url: jdbc:postgresql://103.142.137.207:5432/dochero-db
-    username: postgres
-    password: password
+    url: jdbc:postgresql://103.142.137.207:12345/dochero_document_revision
+    username: root
+    password: 123456
     driverClassName: org.postgresql.Driver
 
   flyway:
-    url: jdbc:postgresql://103.142.137.207:5432/dochero-db
-    schemas: document_revision
-    user: postgres
-    password: password
+    url: jdbc:postgresql://103.142.137.207:12345/dochero_document_revision
+    schemas: dochero_document_revision
+    user: root
+    password: 123456
     locations: classpath:db/migration
 
 server:
