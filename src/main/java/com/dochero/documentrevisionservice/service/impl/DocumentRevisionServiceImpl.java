@@ -2,13 +2,11 @@ package com.dochero.documentrevisionservice.service.impl;
 
 import com.dochero.documentrevisionservice.constants.AppMessage;
 import com.dochero.documentrevisionservice.dto.request.UpdateRevisionRequest;
-import com.dochero.documentrevisionservice.entity.Comment;
 import com.dochero.documentrevisionservice.entity.DocumentRevision;
 import com.dochero.documentrevisionservice.exception.DocumentRevisionException;
 import com.dochero.documentrevisionservice.repository.DocumentRevisionRepository;
 import com.dochero.documentrevisionservice.search.DocumentRevisionSpecification;
 import com.dochero.documentrevisionservice.service.DocumentRevisionService;
-import com.dochero.documentrevisionservice.utils.CommentMapperUtils;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
@@ -46,11 +44,10 @@ public class DocumentRevisionServiceImpl implements DocumentRevisionService {
     @Transactional
     public DocumentRevision createRevisionForExistedDocument(String documentId, UpdateRevisionRequest request) {
         //assume that documentId is valid
-        List<Comment> comments = CommentMapperUtils.convertListCommentDTOsToListComments(request.getComments());
         DocumentRevision revision = DocumentRevision.builder()
                 .documentId(documentId)
                 .revisionData(request.getRevisionData())
-                .comments(comments)
+                .comments(request.getComments())
                 .build();
 
         return documentRevisionRepository.save(revision);

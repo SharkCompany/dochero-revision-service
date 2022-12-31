@@ -1,6 +1,6 @@
 package com.dochero.documentrevisionservice.dto.request;
 
-import com.dochero.documentrevisionservice.dto.CommentDTO;
+import com.dochero.documentrevisionservice.entity.Comment;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,5 +15,5 @@ public class UpdateRevisionRequest {
     private String revisionData;
 
     @Valid
-    private List<CommentDTO> comments;
+    private List<Comment> comments;
 }

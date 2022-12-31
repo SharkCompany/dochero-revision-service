@@ -19,5 +19,5 @@ public class Comment implements Serializable {
     @JsonProperty("content")
     private String content;
     @JsonProperty("createdAt")
-    private Timestamp createdAt;
+    private String createdAt;
 }
