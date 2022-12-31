@@ -47,7 +47,6 @@ public class DocumentRevisionServiceImpl implements DocumentRevisionService {
     public DocumentRevision createRevisionForExistedDocument(String documentId, UpdateRevisionRequest request) {
         //assume that documentId is valid
         List<Comment> comments = CommentMapperUtils.convertListCommentDTOsToListComments(request.getComments());
-
         DocumentRevision revision = DocumentRevision.builder()
                 .documentId(documentId)
                 .revisionData(request.getRevisionData())
