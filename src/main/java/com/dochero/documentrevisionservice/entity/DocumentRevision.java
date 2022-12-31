@@ -1,13 +1,17 @@
 package com.dochero.documentrevisionservice.entity;
 
+import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import lombok.*;
 import org.apache.logging.log4j.util.Strings;
 import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Entity
@@ -16,6 +20,7 @@ import java.util.UUID;
 @Builder
 @Getter
 @Setter
+@TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
 @Table(name = "document_revision")
 public class DocumentRevision {
     @Id
@@ -28,11 +33,13 @@ public class DocumentRevision {
     @Column(name = "revision_data")
     private String revisionData;
 
+    @Type(type = "jsonb")
+    @Column(name = "comments", columnDefinition = "jsonb")
+    private List<Comment> comments;
+
     @Column(name = "created_at")
     private Timestamp createdAt;
 
-    @OneToMany(mappedBy = "revisionReferenceId", cascade = CascadeType.ALL)
-    private List<Comment> comments;
 
     @PrePersist
     private void initData() {
