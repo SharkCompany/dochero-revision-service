@@ -1,8 +1,6 @@
 package com.dochero.documentrevisionservice.service;
 
-import com.dochero.documentrevisionservice.dto.CommentDTO;
 import com.dochero.documentrevisionservice.dto.request.UpdateRevisionRequest;
-import com.dochero.documentrevisionservice.dto.response.DocumentRevisionResponse;
 import com.dochero.documentrevisionservice.entity.DocumentRevision;
 
 import java.util.List;

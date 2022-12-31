@@ -1,13 +1,10 @@
 package com.dochero.documentrevisionservice.service.impl;
 
 import com.dochero.documentrevisionservice.constants.AppMessage;
-import com.dochero.documentrevisionservice.dto.CommentDTO;
 import com.dochero.documentrevisionservice.dto.request.UpdateRevisionRequest;
-import com.dochero.documentrevisionservice.dto.response.DocumentRevisionResponse;
 import com.dochero.documentrevisionservice.entity.Comment;
 import com.dochero.documentrevisionservice.entity.DocumentRevision;
 import com.dochero.documentrevisionservice.exception.DocumentRevisionException;
-import com.dochero.documentrevisionservice.repository.CommentRepository;
 import com.dochero.documentrevisionservice.repository.DocumentRevisionRepository;
 import com.dochero.documentrevisionservice.search.DocumentRevisionSpecification;
 import com.dochero.documentrevisionservice.service.DocumentRevisionService;
@@ -20,17 +17,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class DocumentRevisionServiceImpl implements DocumentRevisionService {
     private final DocumentRevisionRepository documentRevisionRepository;
-    private final CommentRepository commentRepository;
 
     @Autowired
-    public DocumentRevisionServiceImpl(DocumentRevisionRepository documentRevisionRepository, CommentRepository commentRepository) {
+    public DocumentRevisionServiceImpl(DocumentRevisionRepository documentRevisionRepository) {
         this.documentRevisionRepository = documentRevisionRepository;
-        this.commentRepository = commentRepository;
     }
 
     @Override
@@ -52,17 +46,15 @@ public class DocumentRevisionServiceImpl implements DocumentRevisionService {
     @Transactional
     public DocumentRevision createRevisionForExistedDocument(String documentId, UpdateRevisionRequest request) {
         //assume that documentId is valid
+        List<Comment> comments = CommentMapperUtils.convertListCommentDTOsToListComments(request.getComments());
 
         DocumentRevision revision = DocumentRevision.builder()
                 .documentId(documentId)
                 .revisionData(request.getRevisionData())
+                .comments(comments)
                 .build();
-        DocumentRevision saveRevision = documentRevisionRepository.save(revision);
 
-        List<Comment> comments = CommentMapperUtils.mapListCommentDTOsToListComments(request.getComments());
-        commentRepository.saveAll(comments);
-
-        return saveRevision;
+        return documentRevisionRepository.save(revision);
     }
 
     @Override
@@ -100,11 +92,11 @@ public class DocumentRevisionServiceImpl implements DocumentRevisionService {
                 .build();
         DocumentRevision saveRevision = documentRevisionRepository.save(newRevision);
 
-        List<Comment> comments = revision.getComments().stream().map(comment -> Comment.builder()
-                .revisionReferenceId(saveRevision.getId())
-                .content(comment.getContent())
-                .build()).collect(Collectors.toList());
-        commentRepository.saveAll(comments);
+//        List<Comment> comments = revision.getComments().stream().map(comment -> Comment.builder()
+//                .revisionReferenceId(saveRevision.getId())
+//                .content(comment.getContent())
+//                .build()).collect(Collectors.toList());
+//        commentRepository.saveAll(comments);
 
         return saveRevision;
     }
