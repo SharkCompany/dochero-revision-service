@@ -2,6 +2,7 @@ package com.dochero.documentrevisionservice.service.impl;
 
 import com.dochero.documentrevisionservice.constants.AppMessage;
 import com.dochero.documentrevisionservice.dto.request.UpdateRevisionRequest;
+import com.dochero.documentrevisionservice.dto.response.DocumentRevisionResponse;
 import com.dochero.documentrevisionservice.entity.DocumentRevision;
 import com.dochero.documentrevisionservice.exception.DocumentRevisionException;
 import com.dochero.documentrevisionservice.repository.DocumentRevisionRepository;
@@ -75,25 +76,20 @@ public class DocumentRevisionServiceImpl implements DocumentRevisionService {
 
     @Override
     @Transactional
-    public DocumentRevision revertToDocumentRevision(String documentId, String revisionId) {
+    public DocumentRevisionResponse revertToDocumentRevision(String documentId, String revisionId) {
         DocumentRevision documentRevision = documentRevisionRepository.findByIdAndDocumentId(revisionId, documentId)
                 .orElseThrow(() -> new DocumentRevisionException(AppMessage.REVISION_NOT_FOUND));
-        return cloneDocumentRevision(documentRevision);
+        DocumentRevision newRevision = cloneDocumentRevision(documentRevision);
+        return new DocumentRevisionResponse(newRevision, "Revert to revision successfully");
     }
 
     private DocumentRevision cloneDocumentRevision(DocumentRevision revision) {
         DocumentRevision newRevision = DocumentRevision.builder()
                 .documentId(revision.getDocumentId())
                 .revisionData(revision.getRevisionData())
+                .comments(revision.getComments())
                 .build();
-        DocumentRevision saveRevision = documentRevisionRepository.save(newRevision);
 
-//        List<Comment> comments = revision.getComments().stream().map(comment -> Comment.builder()
-//                .revisionReferenceId(saveRevision.getId())
-//                .content(comment.getContent())
-//                .build()).collect(Collectors.toList());
-//        commentRepository.saveAll(comments);
-
-        return saveRevision;
+        return documentRevisionRepository.save(newRevision);
     }
 }
