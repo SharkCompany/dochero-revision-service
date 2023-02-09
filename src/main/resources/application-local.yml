@@ -9,13 +9,13 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         default_schema: dochero_document_revision
   datasource:
-    url: jdbc:postgresql://45.119.85.106:54322/dochero_department
+    url: jdbc:postgresql://45.119.85.106:54322/dochero-department
     username: ksharkinc
     password: "ksharkinc2022"
     driverClassName: org.postgresql.Driver
 
   flyway:
-    url: jdbc:postgresql://45.119.85.106:54322/dochero_department
+    url: jdbc:postgresql://45.119.85.106:54322/dochero-department
     schemas: dochero_document_revision
     user: ksharkinc
     password: "ksharkinc2022"
